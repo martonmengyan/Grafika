@@ -1,0 +1,7 @@
+MinGW/
+models/
+utils/
+*.exe
+*.bat
+include/move.h
+src/move.c
