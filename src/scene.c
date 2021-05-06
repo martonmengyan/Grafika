@@ -50,7 +50,7 @@ void init_scene(Scene* scene)
 
     scene->value=10;
     
-    load_model(&(scene->sphere), "test.obj");
+    load_model(&(scene->sphere), "sphere.obj");
     load_model(&(scene->cube), "cube.obj");
     scene->neptun_texture_id = load_texture("neptune.png"); 
     scene->sun_texture_id = load_texture("sun.png");
