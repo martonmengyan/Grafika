@@ -1,2 +1,2 @@
 # Grafika
-futtatás: make && planets
+futtatás: make && planet
