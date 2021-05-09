@@ -1,12 +1,15 @@
 #include "scene.h"
 #include "math.h"
 #include <GL/glut.h>
-#include "planets.h"
+#include "planet.h"
 #include <obj/load.h>
 #include <obj/draw.h>
 
 void init_scene(Scene* scene)
 {
+    /**
+    * Set the starting angle of the planets
+    */
     mercury.angle = 24.1;
     venus.angle = 220.3;
     earth.angle = 70;
@@ -16,6 +19,10 @@ void init_scene(Scene* scene)
     uranus.angle = 254.2;
     neptune.angle = 91.2;
 
+
+    /**
+    * Set the distance from sun of the planets
+    */
     mercury.r = 7.3;
     venus.r = 13.5;
     earth.r = 18.9;
@@ -26,6 +33,9 @@ void init_scene(Scene* scene)
     uranus.r = 100.8;
     neptune.r = 121.2;
 
+    /**
+    * Set the size of the planets
+    */
     sun.scale = 2.3;
     mercury.scale = 0.48;
     venus.scale = 0.95;
@@ -37,42 +47,24 @@ void init_scene(Scene* scene)
     uranus.scale = 3.9;
     neptune.scale = 3.95;
 
+    /**
+    * Set the speed of the planets
+    */
     sun.anglechange = 0;
     mercury.anglechange = 0.052;
     venus.anglechange = 0.046;
     earth.anglechange = 0.06;
     moon.anglechange = 0.08;
     mars.anglechange = 0.04;
-    jupiter.anglechange = 0.1;
+    jupiter.anglechange = 0.03;
     saturn.anglechange = 0.04;
     uranus.anglechange = 0.025;
     neptune.anglechange = 0.03;
 
     scene->value=10;
     
-    load_model(&(scene->sphere), "sphere.obj");
-    load_model(&(scene->cube), "cube.obj");
-    scene->neptun_texture_id = load_texture("neptune.png"); 
-    scene->sun_texture_id = load_texture("sun.png");
-    scene->venus_texture_id = load_texture("venus.png");
-    scene->earth_texture_id = load_texture("earth.png");
-    scene->moon_texture_id = load_texture("moon.png");
-    scene->mars_texture_id = load_texture("mars.png");
-    scene->jupiter_texture_id = load_texture("jupiter.png");
-    scene->block_texture_id = load_texture("stars.png");
-    scene->saturn_texture_id = load_texture("saturn.png");
-    scene->uranus_texture_id = load_texture("uranus.png");
-    scene->neptune_texture_id = load_texture("neptune.png");
-    scene->help_texture_id = load_texture("help.png");
-
-    glBindTexture(GL_TEXTURE_2D, scene->neptun_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->sun_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->venus_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->earth_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->moon_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->mars_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->jupiter_texture_id);
-    glBindTexture(GL_TEXTURE_2D, scene->block_texture_id);
+    load_model(&(scene->sphere), "obj//sphere.obj");
+    load_model(&(scene->cube), "obj//cube.obj");
 
     /**
     * Planet Material
@@ -207,7 +199,7 @@ void set_material(const Material* material)
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &(material->shininess));
 }
 
-void draw_scene(const Scene* scene)
+void draw_scene(const Scene* scene, const World* world)
 {
     set_material(&(scene->orbit_material));
  
@@ -223,7 +215,7 @@ void draw_scene(const Scene* scene)
 
     set_lighting();
 
-    glBindTexture(GL_TEXTURE_2D, scene->block_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.stars);
 
     set_material(&(scene->stars_material));
 
@@ -232,7 +224,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->cube));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->sun_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.sun);
 
     set_material(&(scene->sun_material));
 
@@ -242,7 +234,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->mercury_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.mercury);
 
     set_material(&(scene->planets_material));
 
@@ -253,7 +245,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
     
-    glBindTexture(GL_TEXTURE_2D, scene->venus_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.venus);
 
     set_material(&(scene->planets_material));
 
@@ -264,7 +256,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->earth_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.earth);
 
     set_material(&(scene->planets_material));
 
@@ -275,7 +267,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->moon_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.moon);
 
     set_material(&(scene->planets_material));
 
@@ -286,7 +278,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->mars_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.mars);
 
     set_material(&(scene->planets_material));
 
@@ -297,7 +289,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->jupiter_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.jupiter);
 
     set_material(&(scene->planets_material));
 
@@ -308,7 +300,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();    
 
-    glBindTexture(GL_TEXTURE_2D, scene->saturn_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.saturn);
 
     set_material(&(scene->planets_material));
 
@@ -319,7 +311,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->uranus_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.uranus);
 
     set_material(&(scene->planets_material));
 
@@ -330,7 +322,7 @@ void draw_scene(const Scene* scene)
     draw_model(&(scene->sphere));
     glPopMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, scene->neptune_texture_id);
+    glBindTexture(GL_TEXTURE_2D, world->planet_name.neptune);
 
     set_material(&(scene->planets_material));
 

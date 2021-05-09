@@ -2,12 +2,12 @@
 #include "scene.h"
 #include "GL/glut.h"
 #include "init.h"
-#include "planets.h"
+#include "planet.h"
 
 #define VIEWPORT_RATIO (4.0 / 3.0)
 #define VIEWPORT_ASPECT 50.0
 
-int is_guide_visible=1;
+int is_guide_visible=0;
 int pause=0;
 
 int WINDOW_WIDTH;
@@ -25,7 +25,7 @@ void display()
 
     glPushMatrix();
     set_view(&camera);
-    draw_scene(&scene);
+    draw_scene(&scene,&world);
     glPopMatrix();
 
     glMatrixMode(GL_PROJECTION);
@@ -37,7 +37,7 @@ void display()
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluOrtho2D(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-        show_guide(scene.help_texture_id,WINDOW_WIDTH,WINDOW_HEIGHT);
+        show_guide(world.help,WINDOW_WIDTH,WINDOW_HEIGHT);
     }
 
     glutSwapBuffers();

@@ -28,3 +28,19 @@ GLuint load_texture(char* filename)
     return texture_name;
 }
 
+void init_textures(World* scene)
+{
+    scene->planet_name.mercury = load_texture("textures//mercury.png"); 
+    scene->planet_name.sun = load_texture("textures//sun.png");
+    scene->planet_name.venus = load_texture("textures//venus.png");
+    scene->planet_name.earth = load_texture("textures//earth.png");
+    scene->planet_name.moon = load_texture("textures//moon.png");
+    scene->planet_name.mars = load_texture("textures//mars.png");
+    scene->planet_name.jupiter = load_texture("textures//jupiter.png");
+    scene->planet_name.saturn = load_texture("textures//saturn.png");
+    scene->planet_name.uranus = load_texture("textures//uranus.png");
+    scene->planet_name.neptune = load_texture("textures//neptune.png");
+    scene->help = load_texture("textures//help.png");
+    scene->planet_name.stars = load_texture("textures//stars.png");
+}
+

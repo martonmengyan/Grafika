@@ -1,6 +1,6 @@
 #include "callbacks.h"
 #include "init.h"
-
+#include "texture.h"
 #include <GL/glut.h>
 
 #include <stdio.h>
@@ -37,6 +37,7 @@ int main(int argc, char* argv[])
 
     init_opengl();
     init_scene(&scene);
+    init_textures(&world);
     init_camera(&camera);
     set_callbacks();
 

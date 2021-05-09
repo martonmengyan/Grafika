@@ -3,7 +3,7 @@
 
 #include "camera.h"
 #include "texture.h"
-#include "planets.h"
+#include "planet.h"
 #include <obj/model.h>
 
 typedef struct Scene
@@ -14,19 +14,6 @@ typedef struct Scene
     Material sun_material;
     Material orbit_material;
     Material stars_material;
-    GLuint sun_texture_id;
-    GLuint block_texture_id;
-    GLuint neptun_texture_id;
-    GLuint mercury_texture_id;
-    GLuint venus_texture_id;
-    GLuint earth_texture_id;
-    GLuint mars_texture_id;
-    GLuint moon_texture_id;
-    GLuint jupiter_texture_id;
-    GLuint saturn_texture_id;
-    GLuint uranus_texture_id;
-    GLuint neptune_texture_id;
-    GLuint help_texture_id;
     int value;
 } Scene;
 
@@ -54,7 +41,7 @@ void update_light_down(Scene* scene);
 /**
  * Draw the scene objects.
  */
-void draw_scene(const Scene* scene);
+void draw_scene(const Scene* scene, const World* world);
 
 /**
  * Draw the orbit of the planets.
