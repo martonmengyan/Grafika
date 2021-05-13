@@ -9,7 +9,6 @@
 typedef struct Scene
 {
     Model sphere;
-    Model cube;
     Material planets_material;
     Material sun_material;
     Material orbit_material;

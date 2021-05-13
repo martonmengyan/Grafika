@@ -19,7 +19,6 @@ void init_scene(Scene* scene)
     uranus.angle = 254.2;
     neptune.angle = 91.2;
 
-
     /**
     * Set the distance from sun of the planets
     */
@@ -64,7 +63,6 @@ void init_scene(Scene* scene)
     scene->value=10;
     
     load_model(&(scene->sphere), "obj//sphere.obj");
-    load_model(&(scene->cube), "obj//cube.obj");
 
     /**
     * Planet Material
@@ -201,8 +199,81 @@ void set_material(const Material* material)
 
 void draw_scene(const Scene* scene, const World* world)
 {
+    int i;
+    int j;
+    GLuint textures[11];
+    double rotation[11];
+    double scale[11];
+    double translatex[11];
+    double translatey[11];
+    Material material[3];
+
+    textures[0]=world->planet_name.sun;
+    textures[1]=world->planet_name.stars;
+    textures[2]=world->planet_name.mercury;
+    textures[3]=world->planet_name.venus;
+    textures[4]=world->planet_name.earth;
+    textures[5]=world->planet_name.moon;
+    textures[6]=world->planet_name.mars;
+    textures[7]=world->planet_name.jupiter;
+    textures[8]=world->planet_name.saturn;
+    textures[9]=world->planet_name.uranus;
+    textures[10]=world->planet_name.neptune;
+
+    rotation[0]=sun.rotation;
+    rotation[1]=0;
+    rotation[2]=mercury.rotation;
+    rotation[3]=venus.rotation;
+    rotation[4]=earth.rotation;
+    rotation[5]=moon.rotation;
+    rotation[6]=mars.rotation;
+    rotation[7]=jupiter.rotation;
+    rotation[8]=saturn.rotation;
+    rotation[9]=uranus.rotation;
+    rotation[10]=neptune.rotation;
+    
+    scale[0]=sun.scale;
+    scale[1]=1000;
+    scale[2]=mercury.scale;
+    scale[3]=venus.scale;
+    scale[4]=earth.scale;
+    scale[5]=moon.scale;
+    scale[6]=mars.scale;
+    scale[7]=jupiter.scale;
+    scale[8]=saturn.scale;
+    scale[9]=uranus.scale;
+    scale[10]=neptune.scale;
+
+    translatex[0]=0;
+    translatex[1]=0;
+    translatex[2]=mercury.r*mercury.x;
+    translatex[3]=venus.r*venus.x;
+    translatex[4]=earth.r*earth.x;
+    translatex[5]=earth.r*earth.x+moon.r*moon.x;
+    translatex[6]=mars.r*mars.x;
+    translatex[7]=jupiter.r*jupiter.x;
+    translatex[8]=saturn.r*saturn.x;
+    translatex[9]=uranus.r*uranus.x;
+    translatex[10]=neptune.r*neptune.x;
+
+    translatey[0]=0;
+    translatey[1]=0;
+    translatey[2]=mercury.r*mercury.y;
+    translatey[3]=venus.r*venus.y;
+    translatey[4]=earth.r*earth.y;
+    translatey[5]=earth.r*earth.y+moon.r*moon.y;
+    translatey[6]=mars.r*mars.y;
+    translatey[7]=jupiter.r*jupiter.y;
+    translatey[8]=saturn.r*saturn.y;
+    translatey[9]=uranus.r*uranus.y;
+    translatey[10]=neptune.r*neptune.y;
+
+    material[0]=scene->sun_material;
+    material[1]=scene->stars_material;
+    material[2]=scene->planets_material;
+
     set_material(&(scene->orbit_material));
- 
+
     draw_orbit(0,0,mercury.r);
     draw_orbit(0,0,venus.r);
     draw_orbit(0,0,earth.r);
@@ -215,124 +286,20 @@ void draw_scene(const Scene* scene, const World* world)
 
     set_lighting();
 
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.stars);
-
-    set_material(&(scene->stars_material));
-
-    glPushMatrix();
-    glScalef(1000,1000,1000);
-    draw_model(&(scene->cube));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.sun);
-
-    set_material(&(scene->sun_material));
-
-    glPushMatrix();
-    glRotatef(sun.rotation,1,0,0);
-    glScalef(sun.scale,sun.scale,sun.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.mercury);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(mercury.r*mercury.x,mercury.r*mercury.y,0);
-    glRotatef(mercury.rotation,1,0,0);
-    glScalef(mercury.scale,mercury.scale,mercury.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-    
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.venus);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(venus.r*venus.x,venus.r*venus.y,0);
-    glRotatef(venus.rotation,1,0,0);
-    glScalef(venus.scale,venus.scale,venus.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.earth);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(earth.r*earth.x,earth.r*earth.y,0);
-    glRotatef(earth.rotation,1,0,0);
-    glScalef(earth.scale,earth.scale,earth.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.moon);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(earth.r*earth.x+moon.r*moon.x,earth.r*earth.y+moon.r*moon.y,0);
-    glRotatef(moon.rotation,1,0,0);
-    glScalef(moon.scale,moon.scale,moon.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.mars);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(mars.r*mars.x,mars.r*mars.y,0);
-    glRotatef(mars.rotation,1,0,0);
-    glScalef(mars.scale,mars.scale,mars.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.jupiter);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(jupiter.r*jupiter.x,jupiter.r*jupiter.y,0);
-    glRotatef(jupiter.rotation,1,0,0);
-    glScalef(jupiter.scale,jupiter.scale,jupiter.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();    
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.saturn);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(saturn.r*saturn.x,saturn.r*saturn.y,0);
-    glRotatef(saturn.rotation,1,0,0);
-    glScalef(saturn.scale,saturn.scale,saturn.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.uranus);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(uranus.r*uranus.x,uranus.r*uranus.y,0);
-    glRotatef(uranus.rotation,1,0,0);
-    glScalef(uranus.scale,uranus.scale,uranus.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-
-    glBindTexture(GL_TEXTURE_2D, world->planet_name.neptune);
-
-    set_material(&(scene->planets_material));
-
-    glPushMatrix();
-    glTranslatef(neptune.r*neptune.x,neptune.r*neptune.y,0);
-    glRotatef(neptune.rotation,1,0,0);
-    glScalef(neptune.scale,neptune.scale,neptune.scale);
-    draw_model(&(scene->sphere));
-    glPopMatrix();
-    
+    for(i=0,j=0;i<11;i++)
+    {
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
+        set_material(&(material[j]));
+        glPushMatrix();
+        glTranslatef(translatex[i],translatey[i],0);
+        glRotatef(rotation[i],1,0,0);
+        glScalef(scale[i],scale[i],scale[i]);
+        draw_model(&(scene->sphere));
+        glPopMatrix();
+        if(j<2){
+            j++;
+        }
+    }
 }
 
 void draw_orbit(double x, double y, double r)
